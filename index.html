@@ -1,49 +1,94 @@
-<script>
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Пещера – изборът</title>
 
-function choose(action) {
-  const box = document.getElementById("result");
-  const buttons = document.getElementById("buttons");
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background: url("https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80")
+            no-repeat center center/cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+        color: white;
+    }
 
-  // Почистваме бутоните при смяна на сцена
-  buttons.innerHTML = "";
+    #game-box {
+        background: rgba(0, 0, 0, 0.6);
+        padding: 20px;
+        border-radius: 10px;
+        width: 80%;
+        max-width: 600px;
+        text-align: center;
+    }
 
-  if (action === 'fight') {
-    box.textContent = "Побеждавате тварта. Пътят се разклонява напред. На къде ще тръгнете?";
+    button {
+        margin: 8px;
+        padding: 12px 20px;
+        font-size: 18px;
+        cursor: pointer;
+        border-radius: 8px;
+        background: #222;
+        color: white;
+        border: none;
+    }
 
-    // Създаваме нови бутони
-    buttons.innerHTML = `
-      <div id="buttons">
-  <button onclick="choose('fight')">Бием се</button>
-  <button onclick="choose('talk')">Говорим с него</button>
-  <button onclick="choose('run')">Бягаме от него</button>
+    button:hover {
+        background: #444;
+    }
+
+    /* ⬇⬇⬇ АНИМАЦИЯТА НА ПРИЛЕПА */
+    #bat {
+        position: absolute;
+        width: 120px;
+        top: 20%;
+        left: -150px;
+        animation: fly 8s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes fly {
+        0%   { left: -150px; transform: scaleX(1); }
+        45%  { left: 110%; transform: scaleX(1); }
+        50%  { left: 110%; transform: scaleX(-1); }
+        100% { left: -150px; transform: scaleX(-1); }
+    }
+</style>
+</head>
+
+<body>
+
+<img id="bat" src="https://i.imgur.com/6c5QnW4.png">
+
+<div id="game-box">
+    <p id="story">Приближавате се внимателно… Съществото ви гледа с жълти очи.</p>
+
+    <button onclick="fight()">Бием се</button>
+    <button onclick="talk()">Говорим с него</button>
+    <button onclick="runAway()">Бягаме от него</button>
 </div>
 
-    `;
-  }
-
-  if (action === 'talk') {
-    box.textContent = "Тварта ви оставя да минете. Продължавате напред…";
-  }
-
-  if (action === 'run') {
-    box.textContent = "Бягате надалеч, докато дишането ви се връща към нормално.";
-  }
+<script>
+function fight() {
+    document.getElementById("story").innerText =
+        "Втурвате се в битка! Тварта изрева и се хвърли напред!";
 }
 
-function go(direction) {
-  const box = document.getElementById("result");
-
-  if (direction === 'north') {
-    box.textContent = "Тръгвате на север. Тунелът се стеснява и става все по-тъмен.";
-  }
-
-  if (direction === 'south') {
-    box.textContent = "Южният тунел мирише на влажна земя. Чувате далечни стъпки.";
-  }
-
-  if (direction === 'west') {
-    box.textContent = "На запад стените са покрити с древни символи. Нещо ги е надрало наскоро.";
-  }
+function talk() {
+    document.getElementById("story").innerText =
+        "Приближавате внимателно… Тварта ви гледа втренчено. Може би разбира думите ви.";
 }
 
+function runAway() {
+    document.getElementById("story").innerText =
+        "Обръщате се и побягвате! Сенките зад вас се раздвижват…";
+}
 </script>
+
+</body>
+</html>
