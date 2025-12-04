@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Пещера – изборът</title>
 
-<style><style>
+<style>
 
 .fade-in {
   opacity: 0;
-  animation: fadeIn 3s forwards ease;
+  animation: fadeIn 2.5s forwards ease;
 }
 
 .fade-out {
@@ -19,74 +19,79 @@
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeOut {
   from { opacity: 1; transform: translateY(0); }
-  to { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 0; transform: translateY(-20px); }
 }
-    
-    body {
-        margin: 0;
-        height: 100vh;
-        background: background: url("https://raw.githubusercontent.com/user-uploads/files/dungeon-background-01.png") no-repeat center center/cover;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: Arial, sans-serif;
-        color: white;
-    }
 
-    #game-box {
-        background: rgba(0, 0, 0, 0.6);
-        padding: 20px;
-        border-radius: 10px;
-        width: 80%;
-        max-width: 600px;
-        text-align: center;
-    }
+/* --- ФОН НА ПЕЩЕРАТА --- */
+body {
+    margin: 0;
+    height: 100vh;
+    background: url("https://raw.githubusercontent.com/user-uploads/files/dungeon-background-01.png") no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    color: white;
+}
 
-    button {
-        margin: 8px;
-        padding: 12px 20px;
-        font-size: 18px;
-        cursor: pointer;
-        border-radius: 8px;
-        background: #222;
-        color: white;
-        border: none;
-    }
+/* Кутията за текста и бутоните */
+#game-box {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+}
 
-    button:hover {
-        background: #444;
-    }
+/* Стил на бутоните */
+button {
+    margin: 8px;
+    padding: 12px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 8px;
+    background: #222;
+    color: white;
+    border: none;
+}
 
-    /* ⬇⬇⬇ АНИМАЦИЯТА НА ПРИЛЕПА */
-    #bat {
-        position: absolute;
-        width: 120px;
-        top: 20%;
-        left: -150px;
-        animation: fly 8s linear infinite;
-        pointer-events: none;
-    }
+button:hover {
+    background: #444;
+}
 
-    @keyframes fly {
-        0%   { left: -150px; transform: scaleX(1); }
-        45%  { left: 110%; transform: scaleX(1); }
-        50%  { left: 110%; transform: scaleX(-1); }
-        100% { left: -150px; transform: scaleX(-1); }
-    }
+/* --- ЛЕТЯЩ ПРИЛЕП --- */
+#bat {
+    position: absolute;
+    width: 140px;
+    top: 20%;
+    left: -200px;
+    animation: fly 10s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes fly {
+    0%   { left: -200px; transform: scaleX(1); }
+    45%  { left: 110%; transform: scaleX(1); }
+    50%  { left: 110%; transform: scaleX(-1); }
+    100% { left: -200px; transform: scaleX(-1); }
+}
+
 </style>
 </head>
 
 <body>
 
-<img id="bat" src="https://i.imgur.com/6c5QnW4.png">
+<!-- Прилепът (сменен с работещ линк) -->
+<img id="bat" src="https://i.imgur.com/dcM6R9S.png">
 
 <div id="game-box">
-    <p id="story">Приближавате се внимателно… Съществото ви гледа с жълти очи.</p>
+    <p id="story" class="fade-in">Приближавате се внимателно… Съществото ви гледа с жълти очи.</p>
 
     <button onclick="fight()">Бием се</button>
     <button onclick="talk()">Говорим с него</button>
@@ -96,23 +101,32 @@
 <script>
 
 function setScene(text, buttons = []) {
-    // сменяме текста
-    document.getElementById("story").innerText = text;
+    let story = document.getElementById("story");
 
-    // генерираме нови бутони
-    let box = document.getElementById("game-box");
-    let oldButtons = box.querySelectorAll("button");
-    oldButtons.forEach(b => b.remove());
+    story.classList.remove("fade-in");
+    story.classList.add("fade-out");
 
-    buttons.forEach(b => {
-        let btn = document.createElement("button");
-        btn.innerText = b.label;
-        btn.onclick = b.action;
-        box.appendChild(btn);
-    });
+    setTimeout(() => {
+        story.innerText = text;
+        story.classList.remove("fade-out");
+        story.classList.add("fade-in");
+
+        let box = document.getElementById("game-box");
+
+        let oldButtons = box.querySelectorAll("button");
+        oldButtons.forEach(b => b.remove());
+
+        buttons.forEach(b => {
+            let btn = document.createElement("button");
+            btn.innerText = b.label;
+            btn.onclick = b.action;
+            box.appendChild(btn);
+        });
+
+    }, 500);
 }
 
-// --- ПЪРВА СЦЕНА ---
+/* --- ПЪРВА СЦЕНА --- */
 function fight() {
     setScene(
         "Тварта се хвърля към вас! Успявате да я отблъснете. Но сега трябва да решите накъде да продължите.",
@@ -146,7 +160,7 @@ function runAway() {
     );
 }
 
-// --- ВТОРА СЦЕНА ---
+/* --- ВТОРА СЦЕНА --- */
 function goNorth() {
     setScene("Тръгвате на Север. Планината се извисява пред вас, а студеният вятър носи звук на нещо древно...");
 }
@@ -161,7 +175,4 @@ function goWest() {
 
 </script>
 
-</script>
-
-</body>
-</html>
+</bod
