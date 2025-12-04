@@ -1,102 +1,49 @@
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Пещера – изборът</title>
+<script>
 
-<style>
+function choose(action) {
+  const box = document.getElementById("result");
+  const buttons = document.getElementById("buttons");
 
-/* ЗАДЕН ФОН */
-body {
-  margin: 0;
-  height: 100vh;
-  background: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1400&q=80')
-    no-repeat center center/cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial, sans-serif;
-  color: white;
-}
+  // Почистваме бутоните при смяна на сцена
+  buttons.innerHTML = "";
 
-/* КУТИЯТА С ТЕКСТА + БУТОНИ */
-#game-box {
-  background: rgba(0,0,0,0.6);
-  padding: 20px;
-  border-radius: 12px;
-  max-width: 600px;
-  width: 80%;
-  text-align: center;
-  box-shadow: 0 0 8px black;
-  z-index: 10;
-}
+  if (action === 'fight') {
+    box.textContent = "Побеждавате тварта. Пътят се разклонява напред. На къде ще тръгнете?";
 
-button {
-  margin: 8px;
-  padding: 12px 22px;
-  background: rgba(0,0,0,0.6);
-  border: none;
-  border-radius: 8px;
-  font-size: 18px;
-  color: white;
-  cursor: pointer;
-  transition: 0.25s;
-}
-button:hover {
-  background: rgba(255,255,255,0.25);
-}
-
-/* ------------------------------ */
-/* 👉 АНИМАЦИЯ НА ЛЕТЯЩО СЪЗДАНИЕ */
-/* ------------------------------ */
-
-#creature {
-  position: absolute;
-  top: 20%;
-  width: 140px;
-  animation: fly 6s linear infinite;
-  pointer-events: none;
-}
-
-@keyframes fly {
-  0%   { left: -200px; transform: scale(1) }
-  50%  { left: 110%; transform: scale(1.1) }
-  100% { left: -200px; transform: scale(1) }
-}
-
-</style>
-</head>
-
-<body>
-
-<!-- ЛЕТЯЩО СЪЗДАНИЕ -->
-<img id="creature" src="https://i.imgur.com/S2AmN4z.png">
-
-<!-- ИГРАТА -->
-<div id="game-box">
-  <p id="result">Приближавате се внимателно… Съществото ви гледа с жълти очи.</p>
-
+    // Създаваме нови бутони
+    buttons.innerHTML = `
+      <div id="buttons">
   <button onclick="choose('fight')">Бием се</button>
   <button onclick="choose('talk')">Говорим с него</button>
   <button onclick="choose('run')">Бягаме от него</button>
 </div>
 
-<script>
-function choose(action) {
-  const box = document.getElementById("result");
+    `;
+  }
 
-  if (action === 'fight') {
-    box.textContent = "Хвърляте се в битка! Тварта изрева и се хвърля към вас!";
-  }
   if (action === 'talk') {
-    box.textContent = "Приближавате внимателно… Тварта сякаш се успокоява.";
+    box.textContent = "Тварта ви оставя да минете. Продължавате напред…";
   }
+
   if (action === 'run') {
-    box.textContent = "Обръщате се и бягате! Планината отеква след вас.";
+    box.textContent = "Бягате надалеч, докато дишането ви се връща към нормално.";
   }
 }
-</script>
 
-</body>
-</html>
+function go(direction) {
+  const box = document.getElementById("result");
+
+  if (direction === 'north') {
+    box.textContent = "Тръгвате на север. Тунелът се стеснява и става все по-тъмен.";
+  }
+
+  if (direction === 'south') {
+    box.textContent = "Южният тунел мирише на влажна земя. Чувате далечни стъпки.";
+  }
+
+  if (direction === 'west') {
+    box.textContent = "На запад стените са покрити с древни символи. Нещо ги е надрало наскоро.";
+  }
+}
+
+</script>
