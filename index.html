@@ -7,9 +7,11 @@
 
 <style>
 
+/* === ПЛАВНИ АНИМАЦИИ НА ТЕКСТА === */
+
 .fade-in {
   opacity: 0;
-  animation: fadeIn 2.5s forwards ease;
+  animation: fadeIn 3s forwards ease;
 }
 
 .fade-out {
@@ -27,19 +29,22 @@
   to   { opacity: 0; transform: translateY(-20px); }
 }
 
-/* --- ФОН НА ПЕЩЕРАТА --- */
+/* === ОСНОВЕН ФОН === */
+
 body {
     margin: 0;
     height: 100vh;
-   background: url("https://i.imgur.com/FU8V2Dn.jpeg") no-repeat center center/cover;
-   display: flex;
+    background: url("https://raw.githubusercontent.com/user-uploads/files/dungeon-background-01.png")
+        no-repeat center center/cover;
+    display: flex;
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
     color: white;
 }
 
-/* Кутията за текста и бутоните */
+/* === КУТИЯТА С ТЕКСТА === */
+
 #game-box {
     background: rgba(0, 0, 0, 0.6);
     padding: 20px;
@@ -49,7 +54,8 @@ body {
     text-align: center;
 }
 
-/* Стил на бутоните */
+/* === БУТОНИ === */
+
 button {
     margin: 8px;
     padding: 12px 20px;
@@ -59,27 +65,29 @@ button {
     background: #222;
     color: white;
     border: none;
+    transition: 0.3s;
 }
 
 button:hover {
     background: #444;
 }
 
-/* --- ЛЕТЯЩ ПРИЛЕП --- */
+/* === ЛЕТЯЩ ПРИЛЕП === */
+
 #bat {
     position: absolute;
-    width: 140px;
+    width: 120px;
     top: 20%;
-    left: -200px;
-    animation: fly 10s linear infinite;
+    left: -150px;
+    animation: fly 8s linear infinite;
     pointer-events: none;
 }
 
 @keyframes fly {
-    0%   { left: -200px; transform: scaleX(1); }
+    0%   { left: -150px; transform: scaleX(1); }
     45%  { left: 110%; transform: scaleX(1); }
     50%  { left: 110%; transform: scaleX(-1); }
-    100% { left: -200px; transform: scaleX(-1); }
+    100% { left: -150px; transform: scaleX(-1); }
 }
 
 </style>
@@ -87,11 +95,13 @@ button:hover {
 
 <body>
 
-<!-- Прилепът (сменен с работещ линк) -->
-<img id="bat" src="https://i.imgur.com/dcM6R9S.png">
+<!-- Прилепът -->
+<img id="bat" src="https://i.imgur.com/o4gvF06.png">
 
 <div id="game-box">
-    <p id="story" class="fade-in">Приближавате се внимателно… Съществото ви гледа с жълти очи.</p>
+    <p id="story" class="fade-in">
+        Приближавате се внимателно… Съществото ви гледа с жълти очи.
+    </p>
 
     <button onclick="fight()">Бием се</button>
     <button onclick="talk()">Говорим с него</button>
@@ -100,9 +110,13 @@ button:hover {
 
 <script>
 
+// Плавна смяна на сцените
 function setScene(text, buttons = []) {
-    let story = document.getElementById("story");
 
+    let story = document.getElementById("story");
+    let box = document.getElementById("game-box");
+
+    // Fade-out
     story.classList.remove("fade-in");
     story.classList.add("fade-out");
 
@@ -111,25 +125,25 @@ function setScene(text, buttons = []) {
         story.classList.remove("fade-out");
         story.classList.add("fade-in");
 
-        let box = document.getElementById("game-box");
+        // премахваме старите бутони
+        box.querySelectorAll("button").forEach(b => b.remove());
 
-        let oldButtons = box.querySelectorAll("button");
-        oldButtons.forEach(b => b.remove());
-
+        // създаваме нови бутони
         buttons.forEach(b => {
             let btn = document.createElement("button");
             btn.innerText = b.label;
             btn.onclick = b.action;
             box.appendChild(btn);
         });
-
     }, 500);
 }
 
-/* --- ПЪРВА СЦЕНА --- */
+
+// === ПЪРВА СЦЕНА ===
+
 function fight() {
     setScene(
-        "Тварта се хвърля към вас! Успявате да я отблъснете. Но сега трябва да решите накъде да продължите.",
+        "Тварта се хвърля към вас! Удряте я с всичка сила и тя отстъпва назад. Но пътят напред ви очаква…",
         [
             { label: "Север", action: goNorth },
             { label: "Юг", action: goSouth },
@@ -140,7 +154,7 @@ function fight() {
 
 function talk() {
     setScene(
-        "Съществото накланя глава. Нещо знае… но няма да ви помогне. Пътят ви остава ваш избор.",
+        "Съществото накланя глава… сякаш ви разбира. Но не отговаря. Пътят ви остава ваш избор.",
         [
             { label: "Север", action: goNorth },
             { label: "Юг", action: goSouth },
@@ -151,7 +165,7 @@ function talk() {
 
 function runAway() {
     setScene(
-        "Побягвате! Излизате от опасността, но пътеките пред вас се разделят.",
+        "Побягвате! Тъмнината ви поглъща, но скоро достигате разклонение.",
         [
             { label: "Север", action: goNorth },
             { label: "Юг", action: goSouth },
@@ -160,19 +174,22 @@ function runAway() {
     );
 }
 
-/* --- ВТОРА СЦЕНА --- */
+
+// === ВТОРА СЦЕНА ===
+
 function goNorth() {
-    setScene("Тръгвате на Север. Планината се извисява пред вас, а студеният вятър носи звук на нещо древно...");
+    setScene("Тръгвате на Север. Леденият въздух ви прорязва, а далечен тътен отеква в тунела…");
 }
 
 function goSouth() {
-    setScene("Тръгвате на Юг. Пътеката става по-тясна, а някъде напред се чува течаща вода...");
+    setScene("Тръгвате на Юг. Пътеката става по-тясна, а напред се чува течаща вода…");
 }
 
 function goWest() {
-    setScene("Тръгвате на Запад. Горите се сгъстяват и сенките между дърветата започват да се движат...");
+    setScene("Тръгвате на Запад. Горите се сгъстяват и сенките между дърветата започват да се движат…");
 }
 
 </script>
 
-</bod
+</body>
+</html>
