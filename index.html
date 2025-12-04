@@ -8,7 +8,6 @@
 <style>
 
 /* === ПЛАВНИ АНИМАЦИИ НА ТЕКСТА === */
-
 .fade-in {
   opacity: 0;
   animation: fadeIn 3s forwards ease;
@@ -30,7 +29,6 @@
 }
 
 /* === ОСНОВЕН ФОН === */
-
 body {
     margin: 0;
     height: 100vh;
@@ -43,10 +41,9 @@ body {
     color: white;
 }
 
-/* === КУТИЯТА С ТЕКСТА === */
-
+/* === КУТИЯ === */
 #game-box {
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0,0,0,0.6);
     padding: 20px;
     border-radius: 10px;
     width: 80%;
@@ -55,7 +52,6 @@ body {
 }
 
 /* === БУТОНИ === */
-
 button {
     margin: 8px;
     padding: 12px 20px;
@@ -65,7 +61,6 @@ button {
     background: #222;
     color: white;
     border: none;
-    transition: 0.3s;
 }
 
 button:hover {
@@ -73,7 +68,6 @@ button:hover {
 }
 
 /* === ЛЕТЯЩ ПРИЛЕП === */
-
 #bat {
     position: absolute;
     width: 120px;
@@ -95,7 +89,6 @@ button:hover {
 
 <body>
 
-<!-- Прилепът -->
 <img id="bat" src="https://i.imgur.com/o4gvF06.png">
 
 <div id="game-box">
@@ -110,13 +103,11 @@ button:hover {
 
 <script>
 
-// Плавна смяна на сцените
 function setScene(text, buttons = []) {
 
     let story = document.getElementById("story");
     let box = document.getElementById("game-box");
 
-    // Fade-out
     story.classList.remove("fade-in");
     story.classList.add("fade-out");
 
@@ -125,10 +116,8 @@ function setScene(text, buttons = []) {
         story.classList.remove("fade-out");
         story.classList.add("fade-in");
 
-        // премахваме старите бутони
         box.querySelectorAll("button").forEach(b => b.remove());
 
-        // създаваме нови бутони
         buttons.forEach(b => {
             let btn = document.createElement("button");
             btn.innerText = b.label;
@@ -138,12 +127,11 @@ function setScene(text, buttons = []) {
     }, 500);
 }
 
-
-// === ПЪРВА СЦЕНА ===
+/* === СЦЕНИ === */
 
 function fight() {
     setScene(
-        "Тварта се хвърля към вас! Удряте я с всичка сила и тя отстъпва назад. Но пътят напред ви очаква…",
+        "Тварта се хвърля към вас! Едва я отблъсквате — и пътят пред вас се разклонява.",
         [
             { label: "Север", action: goNorth },
             { label: "Юг", action: goSouth },
@@ -154,7 +142,7 @@ function fight() {
 
 function talk() {
     setScene(
-        "Съществото накланя глава… сякаш ви разбира. Но не отговаря. Пътят ви остава ваш избор.",
+        "Съществото ви наблюдава, но не отговаря. Пред вас се откриват три пътя.",
         [
             { label: "Север", action: goNorth },
             { label: "Юг", action: goSouth },
@@ -165,7 +153,7 @@ function talk() {
 
 function runAway() {
     setScene(
-        "Побягвате! Тъмнината ви поглъща, но скоро достигате разклонение.",
+        "Побягвате! Но скоро достигате разклонение.",
         [
             { label: "Север", action: goNorth },
             { label: "Юг", action: goSouth },
@@ -174,20 +162,9 @@ function runAway() {
     );
 }
 
-
-// === ВТОРА СЦЕНА ===
-
-function goNorth() {
-    setScene("Тръгвате на Север. Леденият въздух ви прорязва, а далечен тътен отеква в тунела…");
-}
-
-function goSouth() {
-    setScene("Тръгвате на Юг. Пътеката става по-тясна, а напред се чува течаща вода…");
-}
-
-function goWest() {
-    setScene("Тръгвате на Запад. Горите се сгъстяват и сенките между дърветата започват да се движат…");
-}
+function goNorth() { setScene("Продължавате на Север. Вятърът носи древен шепот…"); }
+function goSouth() { setScene("Продължавате на Юг. Чува се течаща вода…"); }
+function goWest()  { setScene("Продължавате на Запад. Сенките започват да се движат…"); }
 
 </script>
 
