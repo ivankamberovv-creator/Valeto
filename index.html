@@ -74,20 +74,73 @@
 </div>
 
 <script>
+
+function setScene(text, buttons = []) {
+    // сменяме текста
+    document.getElementById("story").innerText = text;
+
+    // генерираме нови бутони
+    let box = document.getElementById("game-box");
+    let oldButtons = box.querySelectorAll("button");
+    oldButtons.forEach(b => b.remove());
+
+    buttons.forEach(b => {
+        let btn = document.createElement("button");
+        btn.innerText = b.label;
+        btn.onclick = b.action;
+        box.appendChild(btn);
+    });
+}
+
+// --- ПЪРВА СЦЕНА ---
 function fight() {
-    document.getElementById("story").innerText =
-        "Втурвате се в битка! Тварта изрева и се хвърли напред!";
+    setScene(
+        "Тварта се хвърля към вас! Успявате да я отблъснете. Но сега трябва да решите накъде да продължите.",
+        [
+            { label: "Север", action: goNorth },
+            { label: "Юг", action: goSouth },
+            { label: "Запад", action: goWest }
+        ]
+    );
 }
 
 function talk() {
-    document.getElementById("story").innerText =
-        "Приближавате внимателно… Тварта ви гледа втренчено. Може би разбира думите ви.";
+    setScene(
+        "Съществото накланя глава. Нещо знае… но няма да ви помогне. Пътят ви остава ваш избор.",
+        [
+            { label: "Север", action: goNorth },
+            { label: "Юг", action: goSouth },
+            { label: "Запад", action: goWest }
+        ]
+    );
 }
 
 function runAway() {
-    document.getElementById("story").innerText =
-        "Обръщате се и побягвате! Сенките зад вас се раздвижват…";
+    setScene(
+        "Побягвате! Излизате от опасността, но пътеките пред вас се разделят.",
+        [
+            { label: "Север", action: goNorth },
+            { label: "Юг", action: goSouth },
+            { label: "Запад", action: goWest }
+        ]
+    );
 }
+
+// --- ВТОРА СЦЕНА ---
+function goNorth() {
+    setScene("Тръгвате на Север. Планината се извисява пред вас, а студеният вятър носи звук на нещо древно...");
+}
+
+function goSouth() {
+    setScene("Тръгвате на Юг. Пътеката става по-тясна, а някъде напред се чува течаща вода...");
+}
+
+function goWest() {
+    setScene("Тръгвате на Запад. Горите се сгъстяват и сенките между дърветата започват да се движат...");
+}
+
+</script>
+
 </script>
 
 </body>
