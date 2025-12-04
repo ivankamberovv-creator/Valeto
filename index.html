@@ -7,23 +7,9 @@
 
 <style>
 
-/* -------------------- АНИМАЦИЯ -------------------- */
-
-.fade-in {
-  animation: fadeIn 1.5s ease forwards;
-  opacity: 0;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* -------------------- ОСНОВЕН СТИЛ -------------------- */
-
+/* ЗАДЕН ФОН */
 body {
   margin: 0;
-  padding: 0;
   height: 100vh;
   background: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1400&q=80')
     no-repeat center center/cover;
@@ -34,33 +20,49 @@ body {
   color: white;
 }
 
-/* Кутията с текста и бутоните */
+/* КУТИЯТА С ТЕКСТА + БУТОНИ */
 #game-box {
-  background: rgba(0, 0, 0, 0.6);
-  color: #fff;
+  background: rgba(0,0,0,0.6);
   padding: 20px;
-  border-radius: 10px;
-  width: 80%;
+  border-radius: 12px;
   max-width: 600px;
+  width: 80%;
   text-align: center;
-  box-shadow: 0 0 5px black;
+  box-shadow: 0 0 8px black;
+  z-index: 10;
 }
 
-/* Бутоните */
 button {
   margin: 8px;
-  padding: 12px 20px;
-  font-size: 18px;
-  cursor: pointer;
-  border-radius: 8px;
+  padding: 12px 22px;
   background: rgba(0,0,0,0.6);
-  color: white;
   border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
   transition: 0.25s;
 }
-
 button:hover {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.25);
+}
+
+/* ------------------------------ */
+/* 👉 АНИМАЦИЯ НА ЛЕТЯЩО СЪЗДАНИЕ */
+/* ------------------------------ */
+
+#creature {
+  position: absolute;
+  top: 20%;
+  width: 140px;
+  animation: fly 6s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes fly {
+  0%   { left: -200px; transform: scale(1) }
+  50%  { left: 110%; transform: scale(1.1) }
+  100% { left: -200px; transform: scale(1) }
 }
 
 </style>
@@ -68,31 +70,32 @@ button:hover {
 
 <body>
 
-<div id="game-box" class="fade-in">
-  <p id="result">Приближавате се внимателно… Съществото ви гледа с жълти очи. Може би разбира думите ви.</p>
+<!-- ЛЕТЯЩО СЪЗДАНИЕ -->
+<img id="creature" src="https://i.imgur.com/S2AmN4z.png">
 
-  <button onclick="fight()">Бием се</button>
-  <button onclick="talk()">Говорим с него</button>
-  <button onclick="run()">Бягаме от него</button>
+<!-- ИГРАТА -->
+<div id="game-box">
+  <p id="result">Приближавате се внимателно… Съществото ви гледа с жълти очи.</p>
+
+  <button onclick="choose('fight')">Бием се</button>
+  <button onclick="choose('talk')">Говорим с него</button>
+  <button onclick="choose('run')">Бягаме от него</button>
 </div>
 
 <script>
+function choose(action) {
+  const box = document.getElementById("result");
 
-function fight() {
-  document.getElementById("result").textContent =
-    "Хвърляте се в битка! Тварта изрева и се хвърли към вас!";
+  if (action === 'fight') {
+    box.textContent = "Хвърляте се в битка! Тварта изрева и се хвърля към вас!";
+  }
+  if (action === 'talk') {
+    box.textContent = "Приближавате внимателно… Тварта сякаш се успокоява.";
+  }
+  if (action === 'run') {
+    box.textContent = "Обръщате се и бягате! Планината отеква след вас.";
+  }
 }
-
-function talk() {
-  document.getElementById("result").textContent =
-    "Приближавате внимателно… Тварта ви гледа с любопитство. Може би разбира думите ви…";
-}
-
-function run() {
-  document.getElementById("result").textContent =
-    "Обръщате се и побягвате! Не знаете дали тварта ви следва…";
-}
-
 </script>
 
 </body>
